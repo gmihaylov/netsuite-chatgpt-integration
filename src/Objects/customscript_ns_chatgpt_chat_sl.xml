@@ -1,0 +1,25 @@
+<suitelet scriptid="customscript_ns_chatgpt_chat_sl">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>NetSuite ChatGPT Chat SL</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/NetSuite ChatGPT Chat/NetSuiteChatGPTChat_SL.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy1">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>F</allroles>
+      <audslctrole></audslctrole>
+      <eventtype></eventtype>
+      <isdeployed>T</isdeployed>
+      <isonline>F</isonline>
+      <loglevel>DEBUG</loglevel>
+      <runasrole></runasrole>
+      <status>TESTING</status>
+      <title>NetSuite ChatGPT Chat SL</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</suitelet>

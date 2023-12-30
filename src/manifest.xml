@@ -1,0 +1,4 @@
+<manifest projecttype="ACCOUNTCUSTOMIZATION">
+  <projectname>NetSuite ChatGPT Integration</projectname>
+  <frameworkversion>1.0</frameworkversion>
+</manifest>
