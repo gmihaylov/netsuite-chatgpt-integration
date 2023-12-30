@@ -8,7 +8,7 @@ define(['N/ui/serverWidget', 'N/file', 'N/url'],
     
     (ui, file, url) => {
 
-        const suiteletScriptId = 'customscript_ns_chatgpt_chat_sl';
+        const suiteletScriptId = 'customscript_ns_chatgpt_integration_sl';
         const suiteletDeploymentId = 'customdeploy1';
         const contextMode = false; // !!! WARNING !!! If true, sensitive information will be exposed to ChatGPT
 

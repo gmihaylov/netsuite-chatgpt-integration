@@ -1,7 +1,7 @@
 # NetSuite ChatGPT Integration
 Integrate ChatGPT with NetSuite and ask questions about current transaction. 
 
-## Basic usage ( No integration )
+## Basic usage
 ![App Screenshot](screenshots/screenshot8.gif)
 
 ## What if ChatGPT refuses to complete requested tasks or produce wrong answers? Maybe its seasonal depression?
@@ -52,23 +52,23 @@ _Hello, <u>**George!**</u> How can I assist you today?_
 
 ## NetSuite ChatGPT Integration
 - Since version 1.2.0 you can integrate NetSuite with ChatGPT via !givemorecontext magic word
-- You can set template and which transaction fields to be exposed to ChatGPT when calling !givemorecontext in NetSuiteChatGPTChat_SL
+- You can set template and which transaction fields to be exposed to ChatGPT when calling !givemorecontext in NetSuiteChatGPTIntegration_SL
 
 ## How to integrate ChatGPT with NetSuite?
 You can integrate / give more context to ChatGPT by exposing sensitive data like transaction number, transaction amount or any other transaction field values.
 
-This is possible by enabling context mode in NetSuiteChatGPTChat_UE:
+This is possible by enabling context mode in NetSuiteChatGPTIntegration_UE:
 ```
 const contextMode = true;
 ```
-The magic word, exposed fields and prompt that give more context to ChatGPT can be configured in NetSuiteChatGPTChat_SL:
+The magic word, exposed fields and prompt that give more context to ChatGPT can be configured in NetSuiteChatGPTIntegration_SL:
 ```
 const CONTEXT_MAGIC_WORD = '!givemorecontext';
 const CONTEXT_EXPOSED_FIELDS = ['tranid'];
 const CONTEXT_PROMPT = "I'm currently logged into NetSuite and viewing Sales Order ${tranid}";
 ```
 
-Then in the chat popup just say: !givemorecontext. If contextMode is set to true in NetSuiteChatGPTChat_UE, the UserEvent will instruct the service Suitelet that you're in context mode, Suitelet will source and replace field values from the current transaction in your prompt and send it to ChatGPT.
+Then in the chat popup just say: !givemorecontext. If contextMode is set to true in NetSuiteChatGPTIntegration_UE, the UserEvent will instruct the service Suitelet that you're in context mode, Suitelet will source and replace field values from the current transaction in your prompt and send it to ChatGPT.
 
 The chat box will ⚠️ WARN YOU ⚠️ that you're exposing / sending sensitive information to OpenAI API. 
 
@@ -151,19 +151,19 @@ Screenshots:
 ```
 
 ## Architecture
-- **NetSuiteChatGPTChat_UE UserEvent Script**
+- **NetSuiteChatGPTIntegration_UE UserEvent Script**
   - Adds INLINEHTML field on beforeLoad
   - Content including html, js, css is injected from ./html/chat.html file into INLINEHTML field
   - User Event is deployed on Sales Order record and chat popup will show on scriptContext.UserEventType.VIEW
-- **NetSuiteChatGPTChat_SL Suitelet Script**
+- **NetSuiteChatGPTIntegration_SL Suitelet Script**
   - Acts like service to connect to OpenAI API / ChatGPT
-  - Message requests are sent to NetSuiteChatGPTChat_SL > OpenAI by chat.html
-  - Messages responses are received from NetSuiteChatGPTChat_SL < OpenAI and rendered in the chat popup by chat.html
+  - Message requests are sent to NetSuiteChatGPTIntegration_SL > OpenAI by chat.html
+  - Messages responses are received from NetSuiteChatGPTIntegration_SL < OpenAI and rendered in the chat popup by chat.html
   - Messages are preserved in JSON file by User ID (each user has its own file)
-  - Integrates ChatGPT with NetSuite if contextMode is set to true in NetSuiteChatGPTChat_UE ( **CAUTION:** sensitive NetSuite data is sent to ChatGPT / OpenAI API )
+  - Integrates ChatGPT with NetSuite if contextMode is set to true in NetSuiteChatGPTIntegration_UE ( **CAUTION:** sensitive NetSuite data is sent to ChatGPT / OpenAI API )
 
 ## How to switch between ChatGPT 3.5 / ChatGPT 4 / ChatGPT 4 Turbo?
-In NetSuiteChatGPTChat_SL:
+In NetSuiteChatGPTIntegration_SL:
 ```
 const OPENAI_MODEL = OPENAI_MODELS.GPT3; for ChatGPT 3.5-Turbo (Default)
 const OPENAI_MODEL = OPENAI_MODELS.GPT4; for ChatGPT 4 (May answer slower)
@@ -171,18 +171,18 @@ const OPENAI_MODEL = OPENAI_MODELS.GPT4TURBO; for ChatGPT 4 Turbo
 ```
 
 ## How to adjust ChatGPT model temperature?
-In NetSuiteChatGPTChat_SL:
+In NetSuiteChatGPTIntegration_SL:
 
 ```
 const OPENAI_TEMPERATURE = 1; //What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Defaults to 1
 ```
 
 ## Supported OpenAI ChatGPT Models:
- OpenAI Model              | Description                                                                                                                                                                                                                                                  | Config Option in NetSuiteChatGPTChat_SL                             |
-|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
-| gpt-4-1106-preview | **GPT-4 Turbo**<br/>The latest GPT-4 model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens. This preview model is not yet suited for production traffic. | const OPENAI_MODEL = OPENAI_MODELS.GPT4TURBO; |
-| gpt-4      | Currently points to gpt-4-0613                                                                                                                                                                                                                                          | const OPENAI_MODEL = OPENAI_MODELS.GPT4;      |
-| gpt-3.5-turbo-1106 | **Updated GPT 3.5 Turbo**<br/>The latest GPT-3.5 Turbo model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens.| const OPENAI_MODEL = OPENAI_MODELS.GPT3;      
+ OpenAI Model              | Description                                                                                                                                                                                                                                                  | Config Option in NetSuiteChatGPTIntegration_SL |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| gpt-4-1106-preview | **GPT-4 Turbo**<br/>The latest GPT-4 model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens. This preview model is not yet suited for production traffic. | const OPENAI_MODEL = OPENAI_MODELS.GPT4TURBO;  |
+| gpt-4      | Currently points to gpt-4-0613                                                                                                                                                                                                                                          | const OPENAI_MODEL = OPENAI_MODELS.GPT4;       |
+| gpt-3.5-turbo-1106 | **Updated GPT 3.5 Turbo**<br/>The latest GPT-3.5 Turbo model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens.| const OPENAI_MODEL = OPENAI_MODELS.GPT3;       
 > More information about OpenAI models can be found here https://platform.openai.com/docs/models
 
 ## Considerations
@@ -193,7 +193,7 @@ const OPENAI_TEMPERATURE = 1; //What sampling temperature to use, between 0 and 
 - Use at your own risk
 
 ## How to Set up
-- Place your OpenAI API Key in NetSuiteChatGPTChat_SL:
+- Place your OpenAI API Key in NetSuiteChatGPTIntegration_SL:
 ```
 const OPENAI_API_KEY = '';
 ```
@@ -209,7 +209,7 @@ const SYSTEM_PROMPT = 'You are a NetSuite assistant, skilled in NetSuite concept
 ![App Screenshot](screenshots/screenshot6.png)
 - Click on "Create secret key" & copy secret
 ![App Screenshot](screenshots/screenshot7.png)
-- Edit NetSuiteChatGPTChat_SL.js and put secret in OPENAI_API_KEY const
+- Edit NetSuiteChatGPTIntegration and put secret in OPENAI_API_KEY const
 
 ## Credits
 - Popup-chat-window (https://github.com/KRISHNAPRASADEK/Popup-chat-window)

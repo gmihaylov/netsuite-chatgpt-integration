@@ -1,12 +1,12 @@
-<usereventscript scriptid="customscript_ns_chatgpt_chat_ue">
+<usereventscript scriptid="customscript_ns_chatgpt_integration_ue">
   <description></description>
   <isinactive>F</isinactive>
-  <name>NetSuite ChatGPT Chat UE</name>
+  <name>NetSuite ChatGPT Integration UE</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
   <notifyuser>F</notifyuser>
-  <scriptfile>[/SuiteScripts/NetSuite ChatGPT Chat/NetSuiteChatGPTChat_UE.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/NetSuite ChatGPT Integration/NetSuiteChatGPTIntegration_UE.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy1">
       <allemployees>F</allemployees>
